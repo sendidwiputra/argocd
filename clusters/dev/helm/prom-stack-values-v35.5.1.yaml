@@ -29,36 +29,36 @@ spec:
           enabled: false
         prometheus:
           enabled: true
-          additionalServiceMonitors:
-            - name: "ambassador-monitor"
-              selector:
-                matchLabels:
-                  service: "ambassador-admin"
-              namespaceSelector:
-                matchNames:
-                  - ambassador
-              endpoints:
-                - port: "ambassador-admin"
-            - name: "loki-monitor"
-              selector:
-                matchLabels:
-                  app: loki
-                  release: loki
-              namespaceSelector:
-                matchNames:
-                  - loki-stack
-              endpoints:
-                - port: "http-metrics"
-            - name: "promtail-monitor"
-              selector:
-                matchLabels:
-                  app: promtail
-                  release: loki
-              namespaceSelector:
-                matchNames:
-                  - loki-stack
-              endpoints:
-                - port: "http-metrics"
+          # additionalServiceMonitors:
+          #   - name: "ambassador-monitor"
+          #     selector:
+          #       matchLabels:
+          #         service: "ambassador-admin"
+          #     namespaceSelector:
+          #       matchNames:
+          #         - ambassador
+          #     endpoints:
+          #       - port: "ambassador-admin"
+          #   - name: "loki-monitor"
+          #     selector:
+          #       matchLabels:
+          #         app: loki
+          #         release: loki
+          #     namespaceSelector:
+          #       matchNames:
+          #         - loki-stack
+          #     endpoints:
+          #       - port: "http-metrics"
+          #   - name: "promtail-monitor"
+          #     selector:
+          #       matchLabels:
+          #         app: promtail
+          #         release: loki
+          #     namespaceSelector:
+          #       matchNames:
+          #         - loki-stack
+          #     endpoints:
+          #       - port: "http-metrics"
           prometheusSpec:
             storageSpec:
               volumeClaimTemplate:
