@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nats-svc
+  labels:
+    service: nats
+spec:
+  type: NodePort
+  selector:
+    service: nats
+  ports:
+    - port: 4222
+      targetPort: 4222
