@@ -1,28 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-nginx
+  name: prometheus
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    chart: ingress-nginx
-    repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.7.0
+    chart: prometheus-community
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 46.8.0
     helm:
-      releaseName: ingress-nginx
-      values: |
-        controller:
-          replicaCount: 1
-          resources:
-            requests:
-              cpu: 100m
-              memory: 90Mi
+      releaseName: prometheus-community
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ingress-nginx
+    namespace: prometheus
   syncPolicy:
     automated:
       prune: true
