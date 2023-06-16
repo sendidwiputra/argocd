@@ -13,7 +13,7 @@ spec:
     metadata:
       name: nats
       labels:
-        service: casdoor
+        service: nats
     spec:
       containers:
       - name: nats
