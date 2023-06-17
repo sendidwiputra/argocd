@@ -9,6 +9,18 @@ spec:
     repoURL: https://github.com/sendidwiputra/argocd
     targetRevision: main
 ingressNginx:
+  name: ingress-nginx
+  namespace: ingress-nginx
   version: 4.7.0
+  controller:
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 90Mi
+ingressNginx:
+  name: nats
+  namespace: nats
+  version: 2.7.4
 certManager:
   version: 1.12.2

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-nginx
+  name: {{ .Values.ingressNginx.name}}
   namespace: {{ .Values.metadata.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -12,14 +12,14 @@ spec:
     repoURL: https://kubernetes.github.io/ingress-nginx
     targetRevision: {{ .Values.ingressNginx.version}}
     helm:
-      releaseName: ingress-nginx
+      releaseName: {{ .Values.ingressNginx.name}}
       values: |
         controller:
-          replicaCount: 1
+          replicaCount: {{ .Values.ingressNginx.controller.replicaCount}}
           resources:
             requests:
-              cpu: 100m
-              memory: 90Mi
+              cpu: {{ .Values.ingressNginx.controller.resources.requests.cpu}}
+              memory: {{ .Values.ingressNginx.controller.resources.requests.memory}}
           service:
             type: LoadBalancer
             annotations:
@@ -31,7 +31,7 @@ spec:
             use-proxy-protocol: "true"
   destination:
     server: {{ .Values.spec.destination.server }}
-    namespace: ingress-nginx
+    namespace: {{ .Values.ingressNginx.namespace }}
   syncPolicy:
     automated:
       prune: true

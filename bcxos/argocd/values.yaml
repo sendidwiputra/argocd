@@ -1,0 +1,42 @@
+##
+## Starter Kit configuration for Argo CD
+##
+
+# Enable HA for Redis server
+redis-ha:
+  enabled: true
+
+controller:
+  enableStatefulSet: true
+
+# Main Argo CD server replica count
+server:
+  insecure: true
+  replicas: 1
+  ingress:
+    enabled: true
+    annotations: 
+      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      cert-manager.io/issuer: letsencrypt-nginx
+      # kubernetes.io/tls-acme: "true"
+    # -- Defines which ingress controller will implement the resource
+    ingressClassName: "nginx"
+
+    # -- List of ingress hosts
+    ## Argo Ingress.
+    ## Hostnames must be provided if Ingress is enabled.
+    ## Secrets must be manually created in the namespace
+    hosts:
+      - argocd.sendi.bcxos.com
+    tls:
+      - secretName: argocd-secret
+        hosts:
+          - argocd.sendi.bcxos.com
+  env:
+    - name: ARGOCD_API_SERVER_REPLICAS
+      value: '1'
+
+# Argo CD repository server replica count
+repoServer:
+  replicas: 1
