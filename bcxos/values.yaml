@@ -1,0 +1,12 @@
+metadata:
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/sendidwiputra/argocd
+    targetRevision: main
+ingress-nginx:
+  version: 4.7.0
