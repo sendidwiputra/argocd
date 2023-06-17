@@ -10,3 +10,5 @@ spec:
     targetRevision: main
 ingressNginx:
   version: 4.7.0
+certManager:
+  version: 1.12.2
