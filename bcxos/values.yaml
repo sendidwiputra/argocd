@@ -8,5 +8,5 @@ spec:
   source:
     repoURL: https://github.com/sendidwiputra/argocd
     targetRevision: main
-ingress-nginx:
+ingressNginx:
   version: 4.7.0
