@@ -18,7 +18,7 @@ ingressNginx:
       requests:
         cpu: 100m
         memory: 90Mi
-ingressNginx:
+nats:
   name: nats
   namespace: nats
   version: 2.7.4

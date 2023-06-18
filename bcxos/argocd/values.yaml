@@ -36,6 +36,8 @@ server:
   env:
     - name: ARGOCD_API_SERVER_REPLICAS
       value: '1'
+    - name: ARGOCD_SERVER_INSECURE
+      value: 'true'
 
 # Argo CD repository server replica count
 repoServer:
