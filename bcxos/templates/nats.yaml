@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/sendidwiputra/argocd
-    path: bcxos/path
+    path: bcxos/nats
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: {{ .Values.nats.namespace }}
