@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.certIssuer.name}}
+  namespace: {{ .Values.metadata.namespace }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sendidwiputra/argocd
+    path: bcxos/cert-issuer
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: {{ .Values.certIssuer.namespace }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true # create destination namespace if not present

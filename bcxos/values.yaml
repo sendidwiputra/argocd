@@ -26,5 +26,8 @@ prometheus:
   name: prometheus
   namespace: prometheus
   version: 46.8.0
+certIssuer:
+  name: cert-issuer
+  namespace: cert-issuer
 certManager:
   version: 1.12.2

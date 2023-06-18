@@ -43,6 +43,19 @@ spec:
           #   storageClassName: do-block-storage
           #   accessModes: ["ReadWriteOnce"]
           #   size: 1Gi
+          ingress:
+            enabled: true
+            annotations: 
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+              cert-manager.io/issuer: letsencrypt-nginx-grafana
+            ingressClassName: "nginx"
+            hosts:
+              - grafana.sendi.bcxos.com
+            tls:
+              - secretName: letsencrypt-nginx-grafana
+                hosts:
+                  - grafana.sendi.bcxos.com
         prometheusOperator:
           enabled: true
         prometheus:
