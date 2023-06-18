@@ -11,13 +11,12 @@ controller:
 
 # Main Argo CD server replica count
 server:
-  insecure: true
   replicas: 1
   ingress:
     enabled: true
     annotations: 
-      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       cert-manager.io/issuer: letsencrypt-nginx
       # kubernetes.io/tls-acme: "true"
     # -- Defines which ingress controller will implement the resource
@@ -36,9 +35,9 @@ server:
   env:
     - name: ARGOCD_API_SERVER_REPLICAS
       value: '1'
-    - name: ARGOCD_SERVER_INSECURE
-      value: 'true'
-
+configs:
+  params:
+    server.insecure: true
 # Argo CD repository server replica count
 repoServer:
   replicas: 1
