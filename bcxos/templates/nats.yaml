@@ -8,7 +8,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/sendidwiputra/bcxos/nats/
+    repoURL: https://github.com/sendidwiputra/argocd
+    path: bcxos/path
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: {{ .Values.nats.namespace }}
