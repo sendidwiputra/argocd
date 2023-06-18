@@ -22,5 +22,9 @@ nats:
   name: nats
   namespace: nats
   version: 2.7.4
+prometheus:
+  name: prometheus
+  namespace: prometheus
+  version: 46.8.0
 certManager:
   version: 1.12.2
