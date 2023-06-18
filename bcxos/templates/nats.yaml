@@ -8,11 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    chart: nats
-    repoURL: https://nats-io.github.io/k8s/helm/charts/
-    targetRevision: {{ .Values.nats.version}}
-    helm:
-      releaseName: {{ .Values.nats.name}}
+    repoURL: https://github.com/sendidwiputra/bcxos/nats/
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: {{ .Values.nats.namespace }}
