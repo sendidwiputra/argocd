@@ -21,7 +21,7 @@ ingressNginx:
 nats:
   name: nats
   namespace: nats
-  version: 2.7.4
+  version: 0.19.14
 prometheus:
   name: prometheus
   namespace: prometheus
