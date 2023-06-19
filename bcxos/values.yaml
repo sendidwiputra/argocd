@@ -30,4 +30,6 @@ certIssuer:
   name: cert-issuer
   namespace: cert-issuer
 certManager:
+  name: cert-manager
+  namespace: cert-manager
   version: 1.12.2

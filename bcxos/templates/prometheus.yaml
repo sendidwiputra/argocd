@@ -38,11 +38,6 @@ spec:
                     operator: In
                     values:
                     - observability
-          # persistence:
-          #   enabled: true
-          #   storageClassName: do-block-storage
-          #   accessModes: ["ReadWriteOnce"]
-          #   size: 1Gi
           ingress:
             enabled: true
             annotations: 
@@ -61,19 +56,6 @@ spec:
         prometheus:
           enabled: true
           additionalServiceMonitors:
-          #   - name: "emojivoto-monitor"
-          #     selector:
-          #       matchExpressions:
-          #         - key: app
-          #           operator: In
-          #           values:
-          #             - emoji-svc
-          #             - voting-svc
-          #     namespaceSelector:
-          #       matchNames: 
-          #         - emojivoto
-          #     endpoints:
-          #       - port: "prom"
             - name: "ingress-nginx-monitor"
               selector:
                 matchLabels:
@@ -83,34 +65,6 @@ spec:
                   - ingress-nginx
               endpoints:
                 - port: "metrics"
-
-          # # Uncomment the following section to enable Loki service monitoring
-          #   - name: "loki-monitor"
-          #     selector:
-          #       matchLabels:
-          #         app: loki
-          #         release: loki
-          #     namespaceSelector:
-          #       matchNames:
-          #         - loki-stack
-          #     endpoints:
-          #       - port: "http-metrics"
-
-          # # Uncomment the following section to enable Promtail service monitoring
-          #   - name: "promtail-monitor"
-          #     selector:
-          #       matchLabels:
-          #         app: promtail
-          #         release: loki
-          #     namespaceSelector:
-          #       matchNames:
-          #         - loki-stack
-          #     endpoints:
-          #       - port: "http-metrics"
-
-          ## Prometheus StorageSpec for persistent data
-          ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/user-guides/storage.md
-          ##
           prometheusSpec:
             affinity:
               nodeAffinity:
@@ -122,14 +76,6 @@ spec:
                       operator: In
                       values:
                       - observability
-            # storageSpec:
-            #   volumeClaimTemplate:
-            #     spec:
-            #       storageClassName: do-block-storage
-            #       accessModes: ["ReadWriteOnce"]
-            #       resources:
-            #         requests:
-            #           storage: 1Gi
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: {{ .Values.prometheus.namespace }}
