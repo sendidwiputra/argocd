@@ -18,18 +18,23 @@ ingressNginx:
       requests:
         cpu: 100m
         memory: 90Mi
+  enabled: true
 nats:
   name: nats
   namespace: nats
   version: 0.19.14
+  enabled: false
 prometheus:
   name: prometheus
   namespace: prometheus
   version: 46.8.0
+  enabled: false
 certIssuer:
   name: cert-issuer
   namespace: cert-issuer
+  enabled: false
 certManager:
   name: cert-manager
   namespace: cert-manager
   version: 1.12.2
+  enabled: false

@@ -1,71 +1,34 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: {{ .Values.prometheus.name}}
-  namespace: {{ .Values.metadata.namespace }}
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    chart: kube-prometheus-stack
-    repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: {{ .Values.prometheus.version}}
-    helm:
-      releaseName: {{ .Values.prometheus.name}}
-      values: |
-        defaultRules:
-          create: true
-          rules:
-            etcd: false
-            kubeScheduler: false
-        kubeScheduler:
-          enabled: false
-        kubeEtcd:
-          enabled: false
-        alertmanager:
-          enabled: true
-        grafana:
-          enabled: true
-          adminPassword: sendibcx
-          affinity:
-            nodeAffinity:
-              preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 1
-                preference:
-                  matchExpressions:
-                  - key: preferred
-                    operator: In
-                    values:
-                    - observability
-          ingress:
+{{ if .Values.prometheus.enabled }}
+  apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    name: {{ .Values.prometheus.name}}
+    namespace: {{ .Values.metadata.namespace }}
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+  spec:
+    project: default
+    source:
+      chart: kube-prometheus-stack
+      repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: {{ .Values.prometheus.version}}
+      helm:
+        releaseName: {{ .Values.prometheus.name}}
+        values: |
+          defaultRules:
+            create: true
+            rules:
+              etcd: false
+              kubeScheduler: false
+          kubeScheduler:
+            enabled: false
+          kubeEtcd:
+            enabled: false
+          alertmanager:
             enabled: true
-            annotations: 
-              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-              nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-              cert-manager.io/issuer: letsencrypt-nginx-grafana
-            ingressClassName: "nginx"
-            hosts:
-              - grafana.sendi.bcxos.com
-            tls:
-              - secretName: letsencrypt-nginx-grafana
-                hosts:
-                  - grafana.sendi.bcxos.com
-        prometheusOperator:
-          enabled: true
-        prometheus:
-          enabled: true
-          additionalServiceMonitors:
-            - name: "ingress-nginx-monitor"
-              selector:
-                matchLabels:
-                  app.kubernetes.io/name: ingress-nginx
-              namespaceSelector:
-                matchNames:
-                  - ingress-nginx
-              endpoints:
-                - port: "metrics"
-          prometheusSpec:
+          grafana:
+            enabled: true
+            adminPassword: sendibcx
             affinity:
               nodeAffinity:
                 preferredDuringSchedulingIgnoredDuringExecution:
@@ -76,12 +39,51 @@ spec:
                       operator: In
                       values:
                       - observability
-  destination:
-    server: {{ .Values.spec.destination.server }}
-    namespace: {{ .Values.prometheus.namespace }}
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true # create destination namespace if not present
+            ingress:
+              enabled: true
+              annotations: 
+                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+                nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+                cert-manager.io/issuer: letsencrypt-nginx-grafana
+              ingressClassName: "nginx"
+              hosts:
+                - grafana.sendi.bcxos.com
+              tls:
+                - secretName: letsencrypt-nginx-grafana
+                  hosts:
+                    - grafana.sendi.bcxos.com
+          prometheusOperator:
+            enabled: true
+          prometheus:
+            enabled: true
+            additionalServiceMonitors:
+              - name: "ingress-nginx-monitor"
+                selector:
+                  matchLabels:
+                    app.kubernetes.io/name: ingress-nginx
+                namespaceSelector:
+                  matchNames:
+                    - ingress-nginx
+                endpoints:
+                  - port: "metrics"
+            prometheusSpec:
+              affinity:
+                nodeAffinity:
+                  preferredDuringSchedulingIgnoredDuringExecution:
+                  - weight: 1
+                    preference:
+                      matchExpressions:
+                      - key: preferred
+                        operator: In
+                        values:
+                        - observability
+    destination:
+      server: {{ .Values.spec.destination.server }}
+      namespace: {{ .Values.prometheus.namespace }}
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+        - CreateNamespace=true # create destination namespace if not present
+{{ end }}
